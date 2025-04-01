@@ -1,13 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { COUNTRIES_API, COUNTRIES_DATA_DIR } from './constants.js';
+import { COUNTRIES_API, COUNTRIES_DATA_DIR, EXPECTED_NUMBER_OF_FILES } from './constants.js';
 import { logInfo, logError } from './logger.js';
 
 export interface ProcessedCountry {
   cca2: string;
   ccn3: string;
   cca3: string;
-  commonName: string;
   officialName: string;
   unMember: boolean;
   languages: string[];
@@ -17,56 +16,59 @@ export interface ProcessedCountry {
 }
 
 export interface CountriesData {
-  [lang: string]: ProcessedCountry[];
+  [lang: string]: Record<string, ProcessedCountry>;
 }
 
-/**
- * Retrieves processed country data grouped by localization.
- * 
- * Flow:
- *  1. Check if the data directory contains localization files.
- *     If found, aggregate and return the data.
- *  2. If not, fetch data from the REST Countries API.
- *  3. Process each country record (default English and translations).
- *  4. Save each localization file in minified JSON format.
- *  5. Return the aggregated data.
- * 
- * @returns A CountriesData object grouping country records by language.
- */
 export async function getCountriesData(): Promise<CountriesData> {
   const countriesData: CountriesData = {};
   const dataDir = path.join(process.cwd(), COUNTRIES_DATA_DIR);
-  await fs.mkdir(dataDir, { recursive: true });
 
-  // Helper to load a localization file if it exists.
-  async function loadLanguageFile(lang: string): Promise<ProcessedCountry[] | null> {
-    const filePath = path.join(dataDir, `${lang}.json`);
-    try {
-      await fs.access(filePath);
-      const content = await fs.readFile(filePath, 'utf-8');
-      await logInfo(`Loaded countries data for '${lang}' localization from file.`);
-      return JSON.parse(content).data;
-    } catch {
-      return null;
-    }
-  }
+  try {
+    // Create the data directory if it doesn't exist.
+    await fs.mkdir(dataDir, { recursive: true });
 
-  const engData = await loadLanguageFile('eng');
-  if (engData) {
-    // If English data exists, assume all localization files are present.
-    const files = await fs.readdir(dataDir);
-    for (const file of files) {
-      if (file.endsWith('.json')) {
-        const lang = file.replace('.json', '');
-        const content = await fs.readFile(path.join(dataDir, file), 'utf-8');
-        countriesData[lang] = JSON.parse(content).data;
+    // Helper function to count the number of JSON files in the data directory.
+    async function countLocalisationFiles(): Promise<number> {
+      try {
+        const files = await fs.readdir(dataDir);
+        return files.filter(file => file.endsWith('.json')).length;
+      } catch (error) {
+        // If the directory doesn't exist yet, it will throw an error.
+        // In this case, the count is 0.
+        return 0;
       }
     }
-    await logInfo("Aggregated all localization files from disk.");
-    return countriesData;
+
+    const currentFileCount = await countLocalisationFiles();
+
+    // Check if the number of existing files matches the expected number.
+    if (currentFileCount === EXPECTED_NUMBER_OF_FILES) {
+      logInfo('Local countries data found. Loading from disk...');
+      const files = await fs.readdir(dataDir);
+      for (const file of files) {
+        if (file.endsWith('.json')) {
+          const lang = file.replace('.json', '');
+          const filePath = path.join(dataDir, file);
+          const content = await fs.readFile(filePath, 'utf-8');
+          countriesData[lang] = JSON.parse(content);
+          logInfo(`Loaded countries data for '${lang}' localization from file.`);
+        }
+      }
+      logInfo('Aggregated all localization files from disk.');
+      return countriesData;
+    } else {
+      logInfo(
+        `Expected ${EXPECTED_NUMBER_OF_FILES} localization files, but found ${currentFileCount}. Fetching and updating data...`,
+      );
+      // Proceed to fetch and overwrite data if the count doesn't match.
+    }
+  } catch (error) {
+    logInfo(`Data directory not found or accessible. Fetching data...`);
+    // Proceed to fetch and overwrite data if there's an issue with the directory.
   }
 
-  await logInfo('Countries data not found locally. Fetching from API...');
+  // Fetch countries data from the API if local data is missing or incomplete.
+  logInfo('Fetching countries data from API...');
   try {
     const response = await fetch(COUNTRIES_API);
     if (!response.ok) {
@@ -74,13 +76,16 @@ export async function getCountriesData(): Promise<CountriesData> {
     }
     const countries = await response.json();
 
-    // Process each country record.
+    // Clear the existing countriesData object to prepare for new data.
+    Object.keys(countriesData).forEach(key => delete countriesData[key]);
+
+    // Process each country record to build the localized data.
     for (const country of countries) {
+      const commonName = country.name?.common || 'N/A'
       const defaultRecord: ProcessedCountry = {
         cca2: country.cca2,
         ccn3: country.ccn3 || '',
         cca3: country.cca3 || '',
-        commonName: country.name?.common || 'N/A',
         officialName: country.name?.official || 'N/A',
         unMember: country.unMember,
         languages: country.languages ? Object.values(country.languages) : [],
@@ -89,19 +94,20 @@ export async function getCountriesData(): Promise<CountriesData> {
         googleMaps: country.maps?.googleMaps || '',
       };
 
+      // Ensure the 'eng' localization exists and add the default record.
       if (!countriesData['eng']) {
-        countriesData['eng'] = [];
+        countriesData['eng'] = {};
       }
-      countriesData['eng'].push(defaultRecord);
+      countriesData['eng'][commonName] = defaultRecord;
 
       // Process translations for additional localizations.
       if (country.translations) {
         for (const [lang, translation] of Object.entries(country.translations)) {
+          const commonName = (translation as any).common || country.name?.common || 'N/A'
           const translationRecord: ProcessedCountry = {
             cca2: country.cca2,
             ccn3: country.ccn3 || '',
             cca3: country.cca3 || '',
-            commonName: (translation as any).common || country.name?.common || 'N/A',
             officialName: (translation as any).official || country.name?.official || 'N/A',
             unMember: country.unMember,
             languages: country.languages ? Object.values(country.languages) : [],
@@ -110,19 +116,20 @@ export async function getCountriesData(): Promise<CountriesData> {
             googleMaps: country.maps?.googleMaps || '',
           };
 
+          // Ensure the localization entry exists and add the translated record.
           if (!countriesData[lang]) {
-            countriesData[lang] = [];
+            countriesData[lang] = {};
           }
-          countriesData[lang].push(translationRecord);
+          countriesData[lang][commonName] = translationRecord;
         }
       }
     }
 
-    // Save each localization file in minified JSON format.
+    // Save each localization file in minified JSON format, overwriting existing ones.
     for (const lang of Object.keys(countriesData)) {
       const filePath = path.join(dataDir, `${lang}.json`);
-      await fs.writeFile(filePath, JSON.stringify({ data: countriesData[lang] }), 'utf-8');
-      await logInfo(`Saved '${lang}' localization data: ${countriesData[lang].length} records.`);
+      await fs.writeFile(filePath, JSON.stringify(countriesData[lang]), 'utf-8');
+      logInfo(`Saved '${lang}' localization data: ${Object.keys(countriesData[lang]).length} records.`);
     }
     return countriesData;
   } catch (error) {
