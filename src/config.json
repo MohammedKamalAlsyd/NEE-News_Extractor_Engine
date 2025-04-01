@@ -1,0 +1,5 @@
+{
+    "timeout": 45000,
+    "workerNodes": 5,
+    "logRetentionDays": 3
+  }

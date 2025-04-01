@@ -2,10 +2,12 @@ import { getCountryNews } from './utils/getCountryNews.js';
 import { logInfo, logError } from './utils/logger.js';
 import { getCountriesData } from './utils/getCountriesData.js';
 
+/**
+ * Main application entry point.
+ */
 (async () => {
   try {
-    // Example: Fetch and log news data for Albania in English
-    await getCountriesData(); // Assuming this is still needed for other purposes
+    await getCountriesData(); // Pre-fetch country data
     const language = 'eng';
     const country = 'Albania';
     const countryNews = await getCountryNews(language, country);

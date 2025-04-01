@@ -1,8 +1,18 @@
-# Crawlee + PlaywrightCrawler + TypeScript project
+# NEE - News Extractor Engine
 
-This template is a production ready boilerplate for developing with `PlaywrightCrawler`. Use this to bootstrap your projects using the most up-to-date code.
+NEE (News Extractor Engine) is a production-ready TypeScript boilerplate designed for extracting news data from multiple sources, including Ahrefs, SimilarWeb, and Google search. Leveraging Crawlee's PlaywrightCrawler, NEE provides a scalable and type-safe foundation for aggregating news data from any country, making it an ideal starting point for robust web scraping applications.
 
-If you're looking for examples or want to learn more visit:
 
-- [Documentation](https://crawlee.dev/js/api/playwright-crawler/class/PlaywrightCrawler)
-- [Examples](https://crawlee.dev/js/docs/examples/playwright-crawler)
+## Changelog
+
+### V0.1 - Initial Release
+
+- Multi-source news extraction from Ahrefs, SimilarWeb, and Google.
+- Integrated **PlaywrightCrawler** for seamless headless browsing.
+- Fully implemented in **TypeScript** for type safety and maintainability.
+- Modular routing system with dedicated handlers for different sources.
+- Configurable settings via `config.json` and `config.ts`.
+- Professional logging system (`logger.ts`) with daily log files.
+- Localization support for fetching and processing country data.
+- Polygon data integration for mapping (compatible with Google Maps & Leaflet).
+- Robust error handling and logging across all modules.
