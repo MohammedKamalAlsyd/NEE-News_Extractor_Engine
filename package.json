@@ -7,6 +7,7 @@
         "cheerio": "^1.0.0",
         "crawlee": "^3.0.0",
         "date-fns": "^4.1.0",
+        "domhandler": "^5.0.3",
         "playwright": "*"
     },
     "devDependencies": {

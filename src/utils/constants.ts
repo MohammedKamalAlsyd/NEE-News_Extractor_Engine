@@ -15,7 +15,7 @@ export const GEOCOUNTRIES_URL =
 export const POLYGON_DATA_DIR = 'data/polygon';
 
 // Directory for storing news data files
-export const NEWS_DATA_DIR = 'data/news';
+export const NEWS_DATA_DIR = 'data/news_websites';
 
 // Language-specific search keywords for news
 export const SEARCH_KEYWORDS: Record<string, string> = {
