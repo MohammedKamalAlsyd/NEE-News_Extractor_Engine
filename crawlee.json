@@ -2,7 +2,7 @@
     "persistStateIntervalMillis": 10000,
     "logLevel": "DEBUG",
     "storageClientOptions": {
-        "localDataDirectory": "./data/Crawlee",
+        "localDataDirectory": "./storage",
         "localStorage": true
       }
   }
