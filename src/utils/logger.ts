@@ -83,6 +83,14 @@ export async function logInfo(message: string): Promise<void> {
 }
 
 /**
+ * Logs a warning message.
+ * @param message - The warning message to log.
+ */
+export async function logWarning(message: string): Promise<void> {
+  await writeLog(`WARNING: ${message}`);
+}
+
+/**
  * Logs an error message.
  * @param message - The error message to log.
  */

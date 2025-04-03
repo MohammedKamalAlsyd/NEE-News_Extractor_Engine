@@ -1,5 +1,13 @@
 {
-    "timeout": 45000,
-    "workerNodes": 5,
-    "logRetentionDays": 3
+  "timeout": 45000,
+  "workerNodes": 5,
+  "logRetentionDays": 3,
+  "targetLanguage": "auto",
+  "searchEngine": "bing",
+  "useSimilarWeb": true,
+  "useAhrefs": true,
+  "proxyConfig": {
+    "enabled": false,
+    "apiUrl": "http://username:password@your-proxy-provider.com:port"
   }
+}
