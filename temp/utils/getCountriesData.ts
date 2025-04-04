@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { COUNTRIES_API, COUNTRIES_DATA_DIR, EXPECTED_NUMBER_OF_FILES } from '../meta/constants.js';
 import { logInfo, logError } from './logger.js';
-import { loadConfig } from '../config.js';
+import { loadConfig } from '../../src/config/config.js';
 
 // Interface for processed country data
 export interface ProcessedCountry {

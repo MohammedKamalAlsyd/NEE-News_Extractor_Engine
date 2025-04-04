@@ -11,7 +11,7 @@ import {
 import { logInfo, logError, logWarning } from './logger.js'; // Adjusted import path
 import { NEWS_DATA_DIR, SEARCH_KEYWORDS, LANGUAGE_CODES } from '../meta/constants.js'; // Adjusted import path
 import { getCountryData } from './getCountryData.js'; // Adjusted import path
-import { loadConfig, Config } from '../config.js'; // Adjusted import path
+import { loadConfig, Config } from '../../src/config/config.js'; // Adjusted import path
 import { router } from '../routes.js'; // Adjusted import path
 
 // Configuration constants

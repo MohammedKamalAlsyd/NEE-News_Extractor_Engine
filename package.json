@@ -1,8 +1,11 @@
 {
-    "name": "NEE - News Extractor Engine",
+    "name": "NEE-News Extractor Engine",
     "version": "0.0.1",
     "type": "module",
-    "description": "This is an example of a Crawlee project.",
+    "description": "A Node.js package for scraping and extracting news articles from popular domains. Discover news websites, extract articles and their metadata.",
+    "main": "dist/main.js",
+    "module": "dist/main.mjs",
+    "types": "dist/main.d.ts",
     "dependencies": {
         "cheerio": "^1.0.0",
         "crawlee": "^3.0.0",
@@ -24,6 +27,19 @@
         "test": "echo \"Error: oops, the actor has no tests yet, sad!\" && exit 1",
         "postinstall": "npx crawlee install-playwright-browsers"
     },
-    "author": "It's not you it's me",
-    "license": "ISC"
+    "author": "Mohammed Kamal Alsyd",
+    "license": "MIT",
+    "keywords": [
+        "news",
+        "scraping",
+        "web scraping",
+        "article extraction",
+        "news aggregation",
+        "crawler",
+        "headless browser",
+        "Playwright",
+        "Cheerio",
+        "SEO",
+        "data extraction"
+    ]
 }

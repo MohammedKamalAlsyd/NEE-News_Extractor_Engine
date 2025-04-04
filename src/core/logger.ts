@@ -3,10 +3,29 @@ import fs from 'fs/promises';
 import path from 'path';
 import { format, subDays, isBefore } from 'date-fns';
 
-const logDir = path.join(process.cwd(), 'logs');
-let logRetentionDays = 7;
+/**
+ * @description Global flag to control logging. When false, all logging functions will exit early.
+ */
+let loggingEnabled = true;
 
+
+/**
+ * @description Disables logging by setting the loggingEnabled flag to false.
+ */
+export function disableLogging(): void {
+  loggingEnabled = false;
+}
+
+
+const logDir = path.join(process.cwd(), 'logs');
+
+
+/**
+ * @async
+ * @description Ensures that the log directory exists.
+ */
 async function ensureLogDir(): Promise<void> {
+  if (!loggingEnabled) return;
   try {
     await fs.mkdir(logDir, { recursive: true });
   } catch (err) {
@@ -14,20 +33,23 @@ async function ensureLogDir(): Promise<void> {
   }
 }
 
-async function loadLoggingConfig(): Promise<void> {
-  logRetentionDays = 7; // Static default for simplicity
-}
 
-function getCurrentDate(): string {
-  return format(new Date(), 'yyyy-MM-dd');
-}
-
+/**
+ * @param {string} date - The date string in YYYY-MM-DD format.
+ * @description Constructs the full log file path for a given date.
+ * @returns {string} The full path to the log file.
+ */
 function getLogFilePath(date: string): string {
   return path.join(logDir, `app-${date}.log`);
 }
 
-async function deleteOldLogs(): Promise<void> {
-  await loadLoggingConfig();
+/**
+ * @async
+ * @description Deletes log files that are older than the retention period.
+ * @returns {Promise<void>}
+ */
+export async function deleteOldLogs(logRetentionDays:number): Promise<void> {
+  if (!loggingEnabled) return;
   const thresholdDate = subDays(new Date(), logRetentionDays);
 
   try {
@@ -55,9 +77,17 @@ async function deleteOldLogs(): Promise<void> {
   }
 }
 
+/**
+ * @async
+ * @param {string} level - The log level (e.g., INFO, WARNING, ERROR).
+ * @param {string} message - The log message.
+ * @description Writes a log entry to the current day's log file.
+ * @returns {Promise<void>}
+ */
 async function writeLog(level: string, message: string): Promise<void> {
+  if (!loggingEnabled) return;
   await ensureLogDir();
-  const currentDate = getCurrentDate();
+  const currentDate = format(new Date(), 'yyyy-MM-dd');
   const logFile = getLogFilePath(currentDate);
   const timestamp = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
   const logMessage = `[${timestamp}] [${level}] ${message}\n`;
@@ -67,22 +97,50 @@ async function writeLog(level: string, message: string): Promise<void> {
   } catch (err) {
     console.error(`[Logger] Failed to write to log file ${logFile}:`, err);
   }
-  await deleteOldLogs();
 }
 
+/**
+ * @async
+ * @param {string} message - The message to log.
+ * @param {string} [context] - Optional context for the log message.
+ * @description Logs an informational message.
+ * @returns {Promise<void>}
+ */
 export async function logInfo(message: string, context?: string): Promise<void> {
+  if (!loggingEnabled) return;
   const logMsg = context ? `[${context}] ${message}` : message;
   console.log(`INFO: ${logMsg}`);
   await writeLog('INFO', logMsg);
 }
 
+/**
+ * Logs a warning message.
+ *
+ * @async
+ * @function logWarning
+ * @param {string} message - The warning message.
+ * @param {string} [context] - Optional context for the warning.
+ * @returns {Promise<void>}
+ */
 export async function logWarning(message: string, context?: string): Promise<void> {
+  if (!loggingEnabled) return;
   const logMsg = context ? `[${context}] ${message}` : message;
   console.warn(`WARNING: ${logMsg}`);
   await writeLog('WARNING', logMsg);
 }
 
+/**
+ * Logs an error message.
+ *
+ * @async
+ * @function logError
+ * @param {string} message - The error message.
+ * @param {string} [context] - Optional context for the error.
+ * @param {any} [error] - Optional error object to log additional error details.
+ * @returns {Promise<void>}
+ */
 export async function logError(message: string, context?: string, error?: any): Promise<void> {
+  if (!loggingEnabled) return;
   let logMsg = context ? `[${context}] ${message}` : message;
   if (error) {
     logMsg += ` | Error: ${error instanceof Error ? error.message : String(error)}`;

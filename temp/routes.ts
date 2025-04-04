@@ -8,7 +8,7 @@ import * as cheerio from 'cheerio';
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import { RawNewsRecord } from './utils/getCountryNews.js';
-import { loadConfig, Config } from './config.js';
+import { loadConfig, Config } from '../src/config/config.js';
 import { logInfo, logWarning, logError } from './utils/logger.js'; // Unified logging
 import { ARTICLES_LINKS_DIR } from './meta/constants.js';
 import { extractNewsFromDomain } from './utils/CrawlNewsWebsites.js';
