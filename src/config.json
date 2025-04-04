@@ -9,5 +9,8 @@
   "proxyConfig": {
     "enabled": false,
     "apiUrl": "http://username:password@your-proxy-provider.com:port"
-  }
+  },
+  "searchEnginePages": 10,
+  "articlesPerDomain": 50,
+  "pagesToCrawlPerDomain": 10
 }

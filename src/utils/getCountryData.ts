@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { COUNTRIES_DATA_DIR } from './constants.js';
+import { COUNTRIES_DATA_DIR } from '../meta/constants.js';
 import { logInfo, logError } from './logger.js';
 import { ProcessedCountry } from './getCountriesData.js';
 

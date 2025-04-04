@@ -1,0 +1,579 @@
+{
+  "reuters.com": [],
+  "apnews.com": [
+    {
+      "link": "https://apnews.com/hub/mideast-wars",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/russia-ukraine",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/noticias",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/china",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/asia-pacific",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/latin-america",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/europe",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/africa",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/trump-tariffs-us-world-reaction-5b8411d056e013015a0df6227b41dd5b",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/myanmar-thailand-earthquake-71d51dfc7339e017b1d116c105effab4",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/european-union-parliament-le-pen-corruption-explainer-3293717d677e05f2a66f67e50018d760",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/immigration",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/israel-gaza-hamas-strike-casualties-76c88384839a9ac71c87f0045278c385",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/weather",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/us-news/transportation",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/abortion",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/lgbtq",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/obituaries",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/us-weather-flash-flooding-tornadoes-7d078f3549048935fe760aacf494c96b",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/100-year-flood-frequency-probability-weather-climate-1441437964b77de38e4e590c3c0698e0",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/black-church-lawsuit-proud-boys-trademark-75da1ea60ab17a324e0dedf7fe2b06c4",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/projects/election-results-2025/florida/?r=83253",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/projects/election-results-2025/wisconsin/?r=50888",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/donald-trump",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/congress",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/us-supreme-court",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/trump-waltz-laura-loomer-national-security-council-959b718b04b240c5c8ba3736b4d8aa62",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/ken-paxton-ag-federal-investigation-justice-department-b4c3469a90f1c546dcb69177c432a383",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/trump-musk-doge-tesla-government-cuts-c47211544c5382a6207779ee95c6060b",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/oz-hhs-cms-kennedy-health-medicare-medicaid-ef02cafd3100a4794d8e882fdf2ad7b0",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/trump-tax-cuts-deficits-accounting-senate-b642681f7a4260dd8b25285199878d98",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/march-madness",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/hegseth-signal-messaging-app-attack-plans-f8581bcb447b91d2e7f9cb7809ae0f06",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/ap-top-25-college-basketball-poll",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/ap-top-25-womens-college-basketball-poll",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/nba",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/nhl",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/mlb",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/nfl",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/auto-racing",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/juju-watkins-ap-player-of-year-6acbf8f1fb542e3fa0418a11cca8ac74",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/torpedo-bats-victus-e024f48741090317065388eb6fec0c6a",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/ohtani-dodgers-2a1a49e4dc149982a8d7279d2bd72787",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/trump-golf-liv-tour-pga-ab77d9aafb22c33e859fd6541b417836",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/brett-gardner-son-yankees-death-costa-rica-7ffebf92542073d6b186e8d17fdff65f",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/article/march-madness-final-four-3c66122c670352a4e381ce3d5cacc97f",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/film-reviews",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/the-stream",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/television",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/book-reviews",
+      "image": null,
+      "domain": "apnews.com"
+    },
+    {
+      "link": "https://apnews.com/hub/music",
+      "image": null,
+      "domain": "apnews.com"
+    }
+  ],
+  "bbc.com": [
+    {
+      "link": "https://www.bbc.com/news/articles/c2ew79vy37vo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cr4nlgwzy6qo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/52e4/live/2f01db00-10d3-11f0-a903-bbbdb57bfec3.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cly1g63x7q8o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/c14xldg3mjvo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cq80vwj2092o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c5y5rzvd5k7o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/ckgerl183j3o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cr4nlg6y5pxo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c4g4zl225g8o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/cql6rnyqy6xo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cly1j2v4klzo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/7e31/live/14074250-1055-11f0-83e0-7f1080be50ed.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/culture/article/20250402-maria-schneider-how-last-tango-in-pariss-infamous-explicit-scene-undid-its-female-star",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p0l24752.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/audio/play/p0l270br",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/world",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c705z2e8wxzo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c807lm2003zo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/world-australia-61267489",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cpv4974k27wo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cwy744983e3o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/cgjl7987vj1o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/d4b3/live/2cd14260-10b2-11f0-ba12-8d27eb561761.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/cx25734ddlyo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/e796/live/fda9f3e0-10a4-11f0-ba12-8d27eb561761.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/c62x9npnzxwo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/aa68/live/4d752d20-1048-11f0-ac9f-c37d6fd89579.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/c9qwl3n7ljyo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/39ea/live/722af000-1075-11f0-ac9f-c37d6fd89579.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/cq80vw53ndeo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/f94e/live/ee1c4b40-105d-11f0-ba12-8d27eb561761.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/c74nl7z3782o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/c70d/live/bdf30800-104e-11f0-ac9f-c37d6fd89579.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/videos/c98gejvn3lyo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/2d55/live/c3768e70-106a-11f0-b234-07dc7691c360.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/sport/formula1/videos/c5yp3dynwxqo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/4ec5/live/461ea1b0-0e3a-11f0-b234-07dc7691c360.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/travel/article/20250331-italy-dolomites-the-magic-of-the-legendary-enrosadira",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p0l1f5rv.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/future/article/20240909-how-montecito-california-fire-proofed-and-defended-itself-against-a-mega-wildfire",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p0jphx3k.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/travel/article/20240419-the-amazonian-town-putting-world-cities-to-shame",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p0hps8x2.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/future/article/20241101-how-las-vegas-is-becoming-a-sustainable-city",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p0k1ngy1.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/future/article/20240920-our-plan-worked-how-vienna-prepared-itself-for-a-5000-year-flood",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p0jrrqnx.jpg.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/us-canada",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cz95xd15480o",
+      "image": null,
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c8rgd4yrz3eo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c0qnd2x1nn3o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c5ypxnnyg7jo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c39jn2ldyrko",
+      "image": null,
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c8dgmyzqr6do",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/crldny37exxo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cd7vnl0g0zpo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/sport/football/live/ce3q1n1l023t",
+      "image": null,
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/sport/articles/c93gqz97wy9o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/sport/tennis/articles/c1mel1y998eo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/sport/football/articles/cg72gkr7yreo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/cwy09e3nwr3o",
+      "image": null,
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/clyng762q4eo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/czd35l8995eo",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/news/articles/c15v4j3dqk5o",
+      "image": "https://ichef.bbci.co.uk/news/1536/cpsprodpb/65e4/live/ac0261b0-10ce-11f0-ac9f-c37d6fd89579.png.webp",
+      "domain": "bbc.com"
+    },
+    {
+      "link": "https://www.bbc.com/audio/play/p0l2b63t",
+      "image": null,
+      "domain": "bbc.com"
+    }
+  ],
+  "cnn.com": [],
+  "wsj.com": [],
+  "nytimes.com": [],
+  "ft.com": [],
+  "washingtonpost.com": [],
+  "theguardian.com": [],
+  "aljazeera.com": [],
+  "bloomberg.com": [],
+  "npr.org": [],
+  "elpais.com": [],
+  "lemonde.fr": [],
+  "spiegel.de": [],
+  "economist.com": [],
+  "dw.com": [],
+  "france24.com": [],
+  "thetimes.co.uk": [],
+  "latimes.com": [],
+  "telegraph.co.uk": [],
+  "cbc.ca/news": [],
+  "usatoday.com": [],
+  "abc.net.au/news": [],
+  "nhk.or.jp/nhkworld/": [],
+  "xinhuanet.com": [],
+  "rt.com": [],
+  "timesofindia.indiatimes.com": [],
+  "scmp.com": [],
+  "thehindu.com": [],
+  "asahi.com": [],
+  "straitstimes.com": [],
+  "yomiuri.co.jp": [],
+  "axios.com": [],
+  "politico.com": [],
+  "huffpost.com": [],
+  "theintercept.com": [],
+  "vox.com": [],
+  "vice.com/en/section/news": [],
+  "alarabiya.net": [],
+  "propublica.org": [],
+  "aljazeera.net": [],
+  "arabnews.com": [],
+  "aawsat.com": [],
+  "skynewsarabia.com": [],
+  "thenationalnews.com": [],
+  "okaz.com.sa": [],
+  "alriyadh.com": [],
+  "albayan.ae": [],
+  "khaleejtimes.com": [],
+  "gulfnews.com": [],
+  "egyptindependent.com": [],
+  "ahram.org.eg": [],
+  "emaratalyoum.com": [],
+  "dailynewsegypt.com": [],
+  "kuwaittimes.com": [],
+  "youm7.com": [],
+  "alqabas.com": [],
+  "arabtimesonline.com": [],
+  "alraimedia.com": [],
+  "al-sharq.com": [],
+  "thepeninsulaqatar.com": [],
+  "gulf-times.com": [],
+  "alwatan.com": [],
+  "timesofoman.com": [],
+  "omandaily.om": [],
+  "gdnoline.com": [],
+  "alayam.com": [],
+  "ajnet.me": [],
+  "masrawy.com": []
+}

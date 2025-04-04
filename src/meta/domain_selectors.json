@@ -1,0 +1,22 @@
+{
+    "bbc.com": {
+      "articleLinkSelector": "a[href*=\"/news/\"]",
+      "imageSelector": "div.media-reporter__image img",
+      "cookieSelector": "button[id='cookie-consent-accept']"
+    },
+    "nytimes.com": {
+      "articleLinkSelector": "a[href*=\"/\"]",
+      "imageSelector": "img",
+      "cookieSelector": "button[data-testid='accept-button']"
+    },
+    "aljazeera.com": {
+      "articleLinkSelector": "a[href*=\"/news/\"]",
+      "imageSelector": "img",
+      "cookieSelector": "button[class*='cookie-accept']"
+    },
+    "default": {
+      "articleLinkSelector": "a[href]",
+      "imageSelector": "img",
+      "cookieSelector": "button[class*='cookie'], button[id*='cookie']"
+    }
+  }

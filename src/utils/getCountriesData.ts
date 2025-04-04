@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { COUNTRIES_API, COUNTRIES_DATA_DIR, EXPECTED_NUMBER_OF_FILES } from './constants.js';
+import { COUNTRIES_API, COUNTRIES_DATA_DIR, EXPECTED_NUMBER_OF_FILES } from '../meta/constants.js';
 import { logInfo, logError } from './logger.js';
 import { loadConfig } from '../config.js';
 

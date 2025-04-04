@@ -17,6 +17,9 @@ export const POLYGON_DATA_DIR = 'data/polygon';
 // Directory for storing news data files
 export const NEWS_DATA_DIR = 'data/news_websites';
 
+// Directory for storing article links
+export const ARTICLES_LINKS_DIR = 'data/articles_links';
+
 // Language-specific search keywords for news
 export const SEARCH_KEYWORDS: Record<string, string> = {
   Afrikaans: 'nuus',

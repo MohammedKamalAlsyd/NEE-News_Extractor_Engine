@@ -1,6 +1,6 @@
 {
     "persistStateIntervalMillis": 10000,
-    "logLevel": "DEBUG",
+    "CRAWLEE_MEMORY_MBYTES" : 8192,
     "storageClientOptions": {
         "localDataDirectory": "./storage",
         "localStorage": true

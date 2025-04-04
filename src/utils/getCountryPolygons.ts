@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { GEOCOUNTRIES_URL, POLYGON_DATA_DIR } from './constants.js';
+import { GEOCOUNTRIES_URL, POLYGON_DATA_DIR } from '../meta/constants.js';
 import { logInfo, logError } from './logger.js';
 
 export type PolygonFormat = 'google' | 'leaflet';
