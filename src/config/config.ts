@@ -47,8 +47,6 @@ export async function loadConfig(): Promise<Config> {
     // Set defaults for missing values.
     config.targetLanguage = config.targetLanguage ?? 'auto';
     config.searchEngine = config.searchEngine ?? 'google';
-    config.useSimilarWeb = config.useSimilarWeb ?? true;
-    config.useAhrefs = config.useAhrefs ?? true;
     config.enableLogging = config.enableLogging ?? true;
     config.crawleeConfig = config.crawleeConfig ?? {
       persistStateIntervalMillis: 10000,
@@ -97,8 +95,6 @@ export async function loadConfig(): Promise<Config> {
       enableLogging: true,
       targetLanguage: 'auto',
       searchEngine: 'google',
-      useSimilarWeb: true,
-      useAhrefs: true,
       crawleeConfig: {
         persistStateIntervalMillis: 10000,
         CRAWLEE_MEMORY_MBYTES: 8192,
