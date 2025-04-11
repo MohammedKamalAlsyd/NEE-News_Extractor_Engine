@@ -109,7 +109,6 @@ async function writeLog(level: string, message: string): Promise<void> {
 export async function logInfo(message: string, context?: string): Promise<void> {
   if (!loggingEnabled) return;
   const logMsg = context ? `[${context}] ${message}` : message;
-  console.log(`INFO: ${logMsg}`);
   await writeLog('INFO', logMsg);
 }
 

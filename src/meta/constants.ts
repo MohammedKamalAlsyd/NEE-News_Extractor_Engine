@@ -10,7 +10,7 @@ export const COUNTRIES_API = 'https://restcountries.com/v3.1/all';
  * Directory for storing localization files.
  * @constant {string}
  */
-export const COUNTRIES_DATA_DIR = 'data/countries';
+export const COUNTRIES_FILE_PATH = 'data/countries/countries_data.json';
 
 
 /**
@@ -24,19 +24,8 @@ export const GEOCOUNTRIES_URL =
  * Directory for storing polygon data files.
  * @constant {string}
  */
-export const POLYGON_DATA_DIR = 'data/polygon';
+export const POLYGON_FILE_PATH = 'data/polygon/countryPolygons.json';
 
-/**
- * Directory for storing news data files.
- * @constant {string}
- */
-export const NEWS_DATA_DIR = 'data/news_websites';
-
-/**
- * Directory for storing article links.
- * @constant {string}
- */
-export const ARTICLES_LINKS_DIR = 'data/articles_links';
 
 /**
  * Language-specific search keywords for news.
