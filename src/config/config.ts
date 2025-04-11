@@ -4,14 +4,6 @@ import path from 'path';
 import { Config } from '../types.js';
 import {deleteOldLogs} from '../core/logger.js';
 
-/**
- * @description Determine the language of returned countires names.
- */
-const allowedLocalizations = [
-  'ara', 'bre', 'ces', 'cym', 'deu', 'eng', 'est', 'fin', 'fra',
-  'hrv', 'hun', 'ita', 'jpn', 'kor', 'nld', 'per', 'pol', 'por',
-  'rus', 'slk', 'spa', 'srp', 'swe', 'tur', 'urd', 'zho'
-];
 
 /**
  * @description Singleton instance of configuration; initially not loaded.
@@ -46,7 +38,6 @@ export async function loadConfig(): Promise<Config> {
 
     // Set defaults for missing values.
     config.targetLanguage = config.targetLanguage ?? 'auto';
-    config.searchEngine = config.searchEngine ?? 'google';
     config.enableLogging = config.enableLogging ?? true;
     config.crawleeConfig = config.crawleeConfig ?? {
       persistStateIntervalMillis: 10000,
@@ -60,21 +51,6 @@ export async function loadConfig(): Promise<Config> {
     config.searchEnginePages = config.searchEnginePages ?? 10;
     config.articlesPerDomain = config.articlesPerDomain ?? 50;
     config.pagesToCrawlPerDomain = config.pagesToCrawlPerDomain ?? 10;
-    config.country = config.country ?? 'auto';
-    config.localization = config.localization ?? 'eng';
-
-    // Validate search engine value.
-    const validSearchEngines = ['google', 'bing', 'duckduckgo'];
-    if (!validSearchEngines.includes(config.searchEngine)) {
-      console.warn(`Invalid search engine "${config.searchEngine}" in config. Defaulting to "google".`);
-      config.searchEngine = 'google';
-    }
-
-    // Validate localization value.
-    if (!allowedLocalizations.includes(config.localization)) {
-      console.warn(`Invalid localization "${config.localization}" in config. Defaulting to "eng".`);
-      config.localization = 'eng';
-    }
 
     // Disable logging if the config flag is false.
     if (!config.enableLogging) {
@@ -94,7 +70,6 @@ export async function loadConfig(): Promise<Config> {
       logRetentionDays: 3,
       enableLogging: true,
       targetLanguage: 'auto',
-      searchEngine: 'google',
       crawleeConfig: {
         persistStateIntervalMillis: 10000,
         CRAWLEE_MEMORY_MBYTES: 8192,
@@ -106,9 +81,7 @@ export async function loadConfig(): Promise<Config> {
       proxyConfig: { enabled: false, apiUrl: '' },
       searchEnginePages: 10,
       articlesPerDomain: 50,
-      pagesToCrawlPerDomain: 10,
-      country: 'auto',
-      localization: 'eng'
+      pagesToCrawlPerDomain: 10
     };
     return config;
   }

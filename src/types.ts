@@ -86,11 +86,6 @@ export interface Config {
    */
   targetLanguage: string;
   /**
-   * @property searchEngine
-   * @description The search engine to use for initial searches.
-   */
-  searchEngine: SearchEngine;
-  /**
    * @property crawleeConfig
    * @description Configuration settings for Crawlee.
    */
@@ -115,16 +110,6 @@ export interface Config {
    * @description The maximum number of pages to crawl per domain.
    */
   pagesToCrawlPerDomain: number;
-  /**
-   * @property country
-   * @description The region (using a CCA2 code or "auto") where the search is initiated.
-   */
-  country: string;
-  /**
-   * @property localization
-   * @description ISO language code for preferred country name localization (used by callers, not data saving). Allowed values match the files in the "countries" folder.
-   */
-  localization: string;
 }
 
 

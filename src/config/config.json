@@ -19,7 +19,5 @@
   },
   "searchEnginePages": 10,
   "articlesPerDomain": 50,
-  "pagesToCrawlPerDomain": 10,
-  "country": "auto",
-  "localization": "eng"
+  "pagesToCrawlPerDomain": 10
 }
