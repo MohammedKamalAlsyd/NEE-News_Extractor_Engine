@@ -5,15 +5,10 @@ export interface NewsArticle {
     domain: string;
   }
   
-  export interface ProcessedCountry {
-    name: string;
-    // Add other properties as needed based on your data structure
-  }
-  
   export interface RawNewsRecord {
     rank: number;
     domain: string;
     faviconUrl: string;
     additionalInfo: { searchUrl: string };
-    source: 'GOOGLE' | 'BING' | 'DUCKDUCKGO' | 'BRAVE' | 'ECOSIA' | 'SIMILARWEB' | 'AHREFS';
+    source: 'GOOGLE' | 'BING' | 'DUCKDUCKGO' | 'SIMILARWEB' | 'AHREFS';
   }

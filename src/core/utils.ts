@@ -9,56 +9,55 @@ import {
 } from '../meta/constants.js';
 import { logInfo, logError, logWarning } from './logger.js';
 import { loadConfig } from '../config/config.js';
-import type { CountriesData, ProcessedCountry } from '../types.js';
+import type { ProcessedCountry, AllCountriesData, PolygonFormat, CountryPolygon } from '../types.js'; // Import updated types
 
 // Helper to resolve __dirname in ES modules
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// --- Country Data Handling ---
+
+const ALL_COUNTRIES_FILENAME = 'countries_data.json'; // Single file for all localizations
+
+
 /**
- * Fetches or loads country data, processing it into localized files.
+ * @async
+ * @function getCountriesData
+ * @description Fetches or loads comprehensive country data including multiple localizations.
  *
  * This function will:
- * - Attempt to read from a local file matching the configuration's localization value (e.g., 'eng.json', 'ara.json').
- * - If the file is missing or incomplete, it fetches the full data from the REST Countries API.
- * - Processes the data, extracting relevant fields and handling translations based on the API's structure (using language codes like 'ara', 'deu').
- * - Saves *only* the file that matches the configuration’s localization to the data directory.
+ * - Check for a local cache file (`countries_data.json`) containing all country data.
+ * - If the file exists, load data directly from disk.
+ * - If the file is missing or inaccessible, fetch the full data from the REST Countries API.
+ * - Process the data, extracting relevant fields (cca2, cca3, languages, unMember) and common names for *all* available translations.
+ * - Store the common names in a `names` object within each `ProcessedCountry`, keyed by language code (e.g., 'eng', 'ara').
+ * - Save the complete processed data (all countries, all localizations) to the single cache file (`countries_data.json`).
  *
- * @returns {Promise<CountriesData>} A promise that resolves to an object containing the processed countries data, keyed by the configured localization code. If data for the configured localization is found or fetched, it will be under that key (e.g., `result[config.localization]`).
- * @throws {Error} If fetching data fails or file operations encounter issues.
+ * @returns {Promise<AllCountriesData>} A promise that resolves to an object containing all processed country data, keyed by cca2 code. Returns an empty object on failure.
+ * @throws {Error} Bubbles up errors if fetching or critical file operations fail.
  */
-export async function getCountriesData(): Promise<CountriesData> {
-  const config = await loadConfig();
-  // Initialize an empty object to hold data for the requested localization.
-  const countriesData: CountriesData = {};
+export async function getCountriesData(): Promise<AllCountriesData> {
+  const config = await loadConfig(); // Still needed for timeout
   const dataDir = path.resolve(__dirname, '..', COUNTRIES_DATA_DIR); // Use path relative to this file
+  const filePath = path.join(dataDir, ALL_COUNTRIES_FILENAME);
 
   try {
-    await fs.mkdir(dataDir, { recursive: true });
-    // Construct the expected file name based on the configured localization code (e.g., 'eng.json').
-    const localizedFile = `${config.localization}.json`;
-    const filePath = path.join(dataDir, localizedFile);
-
-    try {
-      // Attempt to access and read the specific localized file.
-      await fs.access(filePath); // Check if file exists and is accessible
-      await logInfo(`Local countries data for '${config.localization}' found. Loading from disk...`);
-      const content = await fs.readFile(filePath, 'utf-8');
-      countriesData[config.localization] = JSON.parse(content);
-      await logInfo(`Loaded countries data for '${config.localization}' localization from file.`);
-      return countriesData; // Return immediately after loading from file
-    } catch (fileError) {
-      // Log if the specific file is not found, then proceed to fetch.
-      await logInfo(
-        `Localized countries data file '${localizedFile}' not found or inaccessible. Fetching and processing data...`
-      );
+    // Attempt to access and read the consolidated data file.
+    await fs.access(filePath); // Check if file exists and is accessible
+    await logInfo(`Consolidated countries data found. Loading from ${filePath}...`);
+    const content = await fs.readFile(filePath, 'utf-8');
+    const allCountriesData: AllCountriesData = JSON.parse(content);
+    await logInfo(`Loaded ${Object.keys(allCountriesData).length} countries from ${ALL_COUNTRIES_FILENAME}.`);
+    return allCountriesData; // Return immediately after loading from file
+  } catch (fileError: any) {
+    if (fileError.code === 'ENOENT') {
+      await logInfo(`Consolidated countries data file '${ALL_COUNTRIES_FILENAME}' not found. Fetching and processing data...`);
+    } else {
+      await logWarning(`Could not access existing data file '${filePath}'. Reason: ${fileError.message}. Fetching data...`);
     }
-  } catch (dirError) {
-    // Log if the directory itself cannot be accessed/created, then proceed to fetch.
-    await logInfo(`Data directory '${dataDir}' check failed. Fetching data... Error: ${dirError instanceof Error ? dirError.message : dirError}`);
   }
 
-  await logInfo(`Workspaceing countries data from API: ${COUNTRIES_API}...`);
+  await logInfo(`Fetching countries data from API: ${COUNTRIES_API}...`);
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), config.timeout);
@@ -70,75 +69,109 @@ export async function getCountriesData(): Promise<CountriesData> {
     }
     // Type assertion based on the expected API structure
     const rawCountries: any[] = await response.json();
-    await logInfo(`Successfully fetched data for ${rawCountries.length} countries/territories.`);
+    await logInfo(`Successfully fetched data for ${rawCountries.length} raw entries from API.`);
 
-    // This object will temporarily hold processed data for the *target* localization only.
-    const processedTargetLocalizationData: Record<string, ProcessedCountry> = {};
+    // This object will hold all processed data.
+    const allProcessedCountries: AllCountriesData = {};
 
     // Process each country returned from the API.
     for (const country of rawCountries) {
-       // Ensure cca2 exists, otherwise skip this entry
-       if (!country.cca2) {
-           await logError(`Skipping entry due to missing cca2 code. Name: ${country.name?.common || 'N/A'}`);
-           continue;
-       }
-
-      // Determine the names based on the target localization
-      let officialName = country.name?.official || 'N/A';
-      let commonName = country.name?.common || 'N/A';
-
-      // Check if the target localization exists in translations
-      if (country.translations && country.translations[config.localization]) {
-        const translation = country.translations[config.localization];
-        officialName = translation.official || officialName; // Fallback to default if translation lacks it
-        commonName = translation.common || commonName;     // Fallback to default if translation lacks it
-      } else if (config.localization === 'eng') {
-         // Use default names if target is English and no specific 'eng' translation is needed
-         // (The base 'name' object is usually English)
-         officialName = country.name?.official || 'N/A';
-         commonName = country.name?.common || 'N/A';
+      // Ensure cca2 exists, otherwise skip this entry
+      if (!country.cca2) {
+        await logError(`Skipping entry due to missing cca2 code. Name: ${country.name?.common || 'N/A'}`);
+        continue;
       }
-      // Note: If config.localization is not 'eng' and not in translations, we use the default (likely English) names.
 
-      // Build the processed record for the target localization.
+      const cca2 = country.cca2;
+      const defaultCommonName = country.name?.common || 'N/A';
+
+      // Build the initial processed record.
       const processedRecord: ProcessedCountry = {
-        cca2: country.cca2,
+        cca2: cca2,
         cca3: country.cca3 || '',
-        officialName: officialName,
-        commonName: commonName,
         unMember: country.unMember || false, // Ensure boolean value
-        // Extract language codes (like 'eng', 'ara') directly from the keys of the languages object.
         languages: country.languages ? Object.keys(country.languages) : [],
+        names: {} // Initialize names object
       };
 
-      // Add the processed record to our temporary object for the target localization.
-      processedTargetLocalizationData[country.cca2] = processedRecord;
+      // Add the default common name (usually English)
+      if (defaultCommonName !== 'N/A') {
+        // Prefer 'eng' key if available, else use a generic default or skip
+        // Let's assume the base common name corresponds to 'eng' if 'eng' is a language
+        // or if no translations specifically define 'eng'.
+        processedRecord.names['eng'] = defaultCommonName;
+      }
+
+      // Process translations to populate the names object
+      if (country.translations) {
+        for (const langCode in country.translations) {
+          if (Object.prototype.hasOwnProperty.call(country.translations, langCode)) {
+            const translation = country.translations[langCode];
+            // Store the common name for this language, fallback to default common if specific translation is missing
+            processedRecord.names[langCode] = translation.common || defaultCommonName;
+          }
+        }
+      }
+
+      // Ensure the default 'eng' name wasn't overwritten by a translation if it shouldn't have been
+      // (e.g., if translations exist but don't include 'eng', keep the original defaultCommonName as 'eng')
+      if (!processedRecord.names['eng'] && defaultCommonName !== 'N/A') {
+        processedRecord.names['eng'] = defaultCommonName;
+      }
+      // If defaultCommonName was N/A and no english translation, remove eng key
+      else if (processedRecord.names['eng'] === 'N/A') {
+        delete processedRecord.names['eng'];
+      }
+
+
+      // Add the fully processed record to our main collection.
+      allProcessedCountries[cca2] = processedRecord;
     }
 
-    // Save only the data for the localization specified in the configuration.
-    const localizationKey = config.localization;
-    const filePath = path.join(dataDir, `${localizationKey}.json`);
-
-    if (Object.keys(processedTargetLocalizationData).length > 0) {
-       // Assign the processed data to the main return object under the localization key.
-      countriesData[localizationKey] = processedTargetLocalizationData;
-      await fs.writeFile(filePath, JSON.stringify(countriesData[localizationKey], null, 2), 'utf-8'); // Use null, 2 for pretty printing
+    // Save the consolidated data.
+    if (Object.keys(allProcessedCountries).length > 0) {
+      await fs.mkdir(dataDir, { recursive: true }); // Ensure directory exists
+      await fs.writeFile(filePath, JSON.stringify(allProcessedCountries), 'utf-8');
       await logInfo(
-        `Saved '${localizationKey}' localization data: ${Object.keys(countriesData[localizationKey]).length} records.`
+        `Saved consolidated countries data: ${Object.keys(allProcessedCountries).length} records to ${filePath}.`
       );
     } else {
-      await logInfo(`No data processed for localization '${localizationKey}'. File not saved.`);
-      // Ensure an empty object is returned for this key if nothing was processed
-      countriesData[localizationKey] = {};
+      await logWarning(`No country data was processed. File not saved.`);
     }
-    return countriesData; // Return the object containing the processed data for the target localization
+    return allProcessedCountries; // Return the processed data
 
   } catch (error) {
-    await logError(`Error in getCountriesData processing or fetch: ${error instanceof Error ? error.message : error}`);
-    // If fetch/processing fails, return an empty object for the target localization
-    // to prevent downstream errors expecting the key to exist.
-    countriesData[config.localization] = {};
-    return countriesData; // Return empty data structure on error after logging
+    await logError(`Error during API fetch or processing in getCountriesData: ${error instanceof Error ? error.message : error}`, 'getCountriesData', error);
+    // Return an empty object on failure to prevent downstream errors
+    return {};
+  }
+}
+
+
+/**
+ * @async
+ * @function getCountryDataByCode
+ * @description Retrieves processed country data for a specific country using its cca2 code.
+ * This function assumes `getCountriesData` has been called previously to load or fetch the data.
+ *
+ * @param {string} cca2 - The ISO 3166-1 alpha-2 country code (e.g., 'US', 'GB', 'DE').
+ * @param {AllCountriesData} allCountriesData - The complete dataset of countries, typically loaded by `getCountriesData`.
+ * @returns {Promise<ProcessedCountry | null>} A promise that resolves to the country's data object if found, otherwise null.
+ */
+export async function getCountryDataByCode(cca2: string, allCountriesData: AllCountriesData): Promise<ProcessedCountry | null> {
+  if (!allCountriesData) {
+    await logError(`[getCountryDataByCode] Invalid or missing 'allCountriesData' provided.`, 'getCountryDataByCode');
+    return null;
+  }
+  const upperCca2 = cca2.toUpperCase(); // Normalize input key
+  const country = allCountriesData[upperCca2];
+
+  if (country) {
+    await logInfo(`[getCountryDataByCode] Found country data for cca2: '${upperCca2}'.`, 'getCountryDataByCode');
+    return country;
+  } else {
+    await logInfo(`[getCountryDataByCode] Country data not found for cca2: '${upperCca2}'.`, 'getCountryDataByCode');
+    return null;
   }
 }
 
@@ -146,63 +179,59 @@ export async function getCountriesData(): Promise<CountriesData> {
 // --- Polygon Data Handling ---
 
 /**
- * Defines the possible formats for polygon coordinate data.
- * 'google': Coordinates formatted as [latitude, longitude] arrays, suitable for Google Maps API.
- * 'leaflet': Coordinates formatted as [longitude, latitude] arrays (standard GeoJSON), suitable for Leaflet.
- */
-export type PolygonFormat = 'google' | 'leaflet';
-
-/**
- * Represents the polygon data for a single country.
- */
-export interface CountryPolygon {
-  /** The ISO 3166-1 alpha-2 country code. */
-  cca2: string;
-  /**
-   * The polygon geometry data. Structure depends on the GeoJSON feature type (Polygon or MultiPolygon)
-   * and the requested format ('google' or 'leaflet').
-   * For 'leaflet', it follows standard GeoJSON [lng, lat].
-   * For 'google', coordinates within are converted to [lat, lng].
-   */
-  polygon: any;
-}
-
-/**
  * Converts GeoJSON coordinates from [longitude, latitude] to [latitude, longitude] format.
  * This is typically required for libraries like Google Maps JavaScript API.
  * Handles both Polygon and MultiPolygon geometry types.
  *
  * @private
+ * @function convertCoordinates
  * @param {any} geometry - The GeoJSON geometry object (Polygon or MultiPolygon).
  * @returns {any} The geometry object with coordinates converted to [lat, lng] format.
- * @throws {Error} If the geometry type is unsupported.
+ * @throws {Error} If the geometry type is unsupported or input is invalid.
  */
 function convertCoordinates(geometry: any): any {
   if (!geometry || !geometry.type || !geometry.coordinates) {
+    logError('[convertCoordinates] Invalid geometry object provided for coordinate conversion.');
     throw new Error('Invalid geometry object provided for coordinate conversion.');
   }
 
-  if (geometry.type === 'Polygon') {
-    // For Polygon: [[[lng, lat], ...]] -> [[[lat, lng], ...]]
-    return geometry.coordinates.map((ring: number[][]) =>
-      ring.map(coord => [coord[1], coord[0]])
-    );
-  } else if (geometry.type === 'MultiPolygon') {
-    // For MultiPolygon: [[[[lng, lat], ...]], ...] -> [[[[lat, lng], ...]], ...]
-    return geometry.coordinates.map((polygon: number[][][]) =>
-      polygon.map((ring: number[][]) =>
-        ring.map(coord => [coord[1], coord[0]])
-      )
-    );
-  } else {
-    // Log and throw for unsupported types
-    logError(`Unsupported geometry type encountered during coordinate conversion: ${geometry.type}`);
-    throw new Error(`Unsupported geometry type: ${geometry.type}`);
+  try {
+    if (geometry.type === 'Polygon') {
+      // For Polygon: [[[lng, lat], ...]] -> [[[lat, lng], ...]]
+      return geometry.coordinates.map((ring: number[][]) =>
+        ring.map(coord => {
+          if (!Array.isArray(coord) || coord.length < 2 || typeof coord[0] !== 'number' || typeof coord[1] !== 'number') {
+            throw new Error('Invalid coordinate pair found in Polygon ring.');
+          }
+          return [coord[1], coord[0]];
+        })
+      );
+    } else if (geometry.type === 'MultiPolygon') {
+      // For MultiPolygon: [[[[lng, lat], ...]], ...] -> [[[[lat, lng], ...]], ...]
+      return geometry.coordinates.map((polygon: number[][][]) =>
+        polygon.map((ring: number[][]) =>
+          ring.map(coord => {
+            if (!Array.isArray(coord) || coord.length < 2 || typeof coord[0] !== 'number' || typeof coord[1] !== 'number') {
+              throw new Error('Invalid coordinate pair found in MultiPolygon ring.');
+            }
+            return [coord[1], coord[0]];
+          })
+        )
+      );
+    } else {
+      // Log and throw for unsupported types
+      throw new Error(`Unsupported geometry type: ${geometry.type}`);
+    }
+  } catch (error: any) {
+    logError(`[convertCoordinates] Error converting coordinates for geometry type ${geometry.type}: ${error.message}`);
+    throw error; // Re-throw after logging
   }
 }
 
 /**
- * Fetches or loads country polygon (boundary) data in the specified coordinate format.
+ * @async
+ * @function getCountryPolygons
+ * @description Fetches or loads country polygon (boundary) data in the specified coordinate format.
  *
  * This function will:
  * - Check for a pre-existing local file corresponding to the requested format ('google' or 'leaflet').
@@ -217,14 +246,14 @@ function convertCoordinates(geometry: any): any {
  * - Return the array of country polygons.
  *
  * @param {PolygonFormat} format - The desired coordinate format ('google' or 'leaflet').
- * @returns {Promise<CountryPolygon[]>} A promise that resolves to an array of country polygon objects.
- * @throws {Error} If fetching or processing fails.
+ * @returns {Promise<CountryPolygon[]>} A promise that resolves to an array of country polygon objects. Returns empty array on failure.
+ * @throws {Error} Bubbles up errors if fetching or critical processing fails.
  */
-export async function getCountryPolygons(format: PolygonFormat): Promise<CountryPolygon[]> {
-  // Determine filename based on format
-  const fileName = format === 'google' ? 'countryPolygons_google.json' : 'countryPolygons_leaflet.json';
-  // Construct full path relative to the project's current working directory
-  const filePath = path.join(process.cwd(), POLYGON_DATA_DIR, fileName);
+export async function getCountryPolygons(): Promise<CountryPolygon[]> { // Removed format parameter
+  const fileName = 'countryPolygons.json'; // Single file name
+  // Construct path relative to current working directory for broader compatibility
+  const dataDir = path.resolve(__dirname, '..', POLYGON_DATA_DIR); // Use path relative to this file
+  const filePath = path.join(dataDir, fileName);
   const dirPath = path.dirname(filePath);
 
   try {
@@ -232,67 +261,79 @@ export async function getCountryPolygons(format: PolygonFormat): Promise<Country
     await fs.access(filePath);
     // If it exists, read and parse it
     const content = await fs.readFile(filePath, 'utf-8');
-    await logInfo(`Loaded country polygons (${format}) from file: ${filePath}`);
+    // Update log message - remove format mention
+    await logInfo(`Loaded country polygons from file: ${filePath}`);
     return JSON.parse(content) as CountryPolygon[];
   } catch (err: any) {
     // Handle file not found or other access errors by fetching
     if (err.code === 'ENOENT') {
-      await logInfo(`Country polygons file (${format}) not found at ${filePath}. Fetching data...`);
+      // Update log message - remove format mention
+      await logInfo(`Country polygons file not found at ${filePath}. Fetching data...`);
     } else {
-      await logWarning(`Could not access existing polygon file (${format}) at ${filePath}. Reason: ${err.message}. Fetching data...`);
+      // Update log message - remove format mention
+      await logWarning(`Could not access existing polygon file at ${filePath}. Reason: ${err.message}. Fetching data...`);
     }
 
     try {
-      await logInfo(`Workspaceing GeoJSON data from: ${GEOCOUNTRIES_URL}`);
+      await logInfo(`Fetching GeoJSON data from: ${GEOCOUNTRIES_URL}`);
       const response = await fetch(GEOCOUNTRIES_URL);
       if (!response.ok) {
         throw new Error(`Failed to fetch GeoJSON data: ${response.status} ${response.statusText}`);
       }
-      // Type assertion for the expected GeoJSON structure
       const geoJson: any = await response.json();
 
       if (!geoJson || !Array.isArray(geoJson.features)) {
-         throw new Error('Fetched GeoJSON data is invalid or missing features array.');
+        throw new Error('Fetched GeoJSON data is invalid or missing features array.');
       }
-       await logInfo(`Successfully fetched GeoJSON data. Processing ${geoJson.features.length} features...`);
+      await logInfo(`Successfully fetched GeoJSON data. Processing ${geoJson.features.length} features...`);
 
 
       const polygons: CountryPolygon[] = geoJson.features
         .map((feature: any): CountryPolygon | null => {
           try {
-             // Validate feature structure
-            if (!feature || !feature.properties || !feature.geometry || !feature.properties.ISO_A2) {
-              logWarning(`Skipping feature due to missing properties, geometry, or ISO_A2 code.`);
-                return null; // Skip invalid features
+            // Keep the cca2 extraction logic from the previous step
+            let cca2 = feature?.properties?.['ISO3166-1-Alpha-2'];
+            if (!cca2) {
+                cca2 = feature?.properties?.ISO_A2;
+                // Optional logging removed for brevity
+                // logWarning(`Property 'ISO3166-1-Alpha-2' not found, falling back to 'ISO_A2' for properties: ${JSON.stringify(feature?.properties)}`);
             }
-            const cca2 = feature.properties.ISO_A2;
-             // Process polygon data based on format
-            const polygonData = format === 'leaflet'
-                                ? feature.geometry // Keep original GeoJSON geometry for Leaflet
-                                : { // For Google, create new object with converted coords but keep type
-                                     type: feature.geometry.type,
-                                     coordinates: convertCoordinates(feature.geometry)
-                                  };
+            if (!cca2 || cca2 === "-99") {
+                const ehCode = feature?.properties?.ISO_A2_EH;
+                if (ehCode && ehCode !== "-99") {
+                   cca2 = ehCode;
+                   // Optional logging removed for brevity
+                   // logWarning(`Primary cca2 invalid ('${cca2}'), falling back to 'ISO_A2_EH': ${ehCode} for properties: ${JSON.stringify(feature?.properties)}`);
+                }
+            }
+            if (!feature || !feature.properties || !feature.geometry || !cca2 || cca2 === "-99") {
+                logWarning(`Skipping feature due to missing properties, geometry, or valid final cca2 code ('${cca2}'). Properties: ${JSON.stringify(feature?.properties)}`);
+                return null;
+            }
+
+            // --- Modification: Always use standard GeoJSON format ---
+            // No transformation needed, just use the geometry as is
+            const polygonData = feature.geometry;
+            // --- End Modification ---
 
             return { cca2, polygon: polygonData };
-          } catch(featureError) {
-              logError(`Error processing feature with properties ${JSON.stringify(feature?.properties)}: ${featureError instanceof Error ? featureError.message: featureError}`);
-              return null; // Skip features that cause errors during processing
+          } catch (featureError) {
+            logError(`Error processing feature with properties ${JSON.stringify(feature?.properties)}: ${featureError instanceof Error ? featureError.message : featureError}`, 'getCountryPolygons');
+            return null;
           }
-
         })
-        .filter((p: CountryPolygon | null): p is CountryPolygon => p !== null); // Filter out any null results from skipping
+        .filter((p: CountryPolygon | null): p is CountryPolygon => p !== null);
 
 
-      // Ensure the target directory exists before writing
       await fs.mkdir(dirPath, { recursive: true });
-      // Write the processed polygons to the file
-      await fs.writeFile(filePath, JSON.stringify(polygons, null, 2), 'utf-8'); // Pretty print JSON
-      await logInfo(`Workspaceed, processed, and saved country polygons (${format}) data to: ${filePath}`);
+      // Save compact JSON
+      await fs.writeFile(filePath, JSON.stringify(polygons), 'utf-8');
+      // Update log message - remove format mention
+      await logInfo(`Fetched, processed, and saved country polygons (${polygons.length} records) to: ${filePath}`);
       return polygons;
     } catch (fetchOrProcessError) {
-      await logError(`Error fetching or processing country polygons (${format}): ${fetchOrProcessError instanceof Error ? fetchOrProcessError.message : fetchOrProcessError}`);
-      // Re-throw the error to indicate failure
+      // Update log message - remove format mention
+      await logError(`Error fetching or processing country polygons: ${fetchOrProcessError instanceof Error ? fetchOrProcessError.message : fetchOrProcessError}`, 'getCountryPolygons', fetchOrProcessError);
       throw fetchOrProcessError;
     }
   }

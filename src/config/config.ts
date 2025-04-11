@@ -64,7 +64,7 @@ export async function loadConfig(): Promise<Config> {
     config.localization = config.localization ?? 'eng';
 
     // Validate search engine value.
-    const validSearchEngines = ['google', 'bing', 'duckduckgo', 'brave', 'ecosia'];
+    const validSearchEngines = ['google', 'bing', 'duckduckgo'];
     if (!validSearchEngines.includes(config.searchEngine)) {
       console.warn(`Invalid search engine "${config.searchEngine}" in config. Defaulting to "google".`);
       config.searchEngine = 'google';
